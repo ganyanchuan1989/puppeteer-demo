@@ -39,15 +39,20 @@ const dl = require("./dl");
         // console.log(url);
         const dyPage = await browser.newPage();
         await dyPage.goto(url);
+        const descStr = await dyPage.$eval(".desc", descP => {
+          return descP.innerHTML;
+        });
+        // console.log("descStr", descStr);
         const dyContent = await dyPage.content();
         const dyIdex = dyContent.indexOf("playAddr:");
+
         // console.log(dyIdex);
         if (dyIdex > -1) {
           const tempStr = dyContent.substr(dyIdex + 11);
           // console.log("tempStr:", tempStr);
           const dyVUrl = tempStr.substr(0, tempStr.indexOf('"'));
           // console.log("dyVUrl:", dyVUrl);
-          dl(dyVUrl);
+          dl(dyVUrl, descStr);
           try {
             dyPage.close();
             subPage.close();
@@ -63,13 +68,14 @@ const dl = require("./dl");
       return urls;
     });
 
-    aurls.forEach(async url => {
-      childPage(url);
-      await sleep(2000);
-    });
+    // aurls.forEach(async url => {
+    //   childPage(url);
+    //   await sleep(2000);
+    // });
+    childPage(aurls[0]);
   };
 
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 1; i++) {
     await downloadByPage(
       "https://www.doudada.com/hot/video?keyword=&page=" +
         i +
