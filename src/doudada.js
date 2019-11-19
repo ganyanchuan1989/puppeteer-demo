@@ -52,7 +52,7 @@ const dl = require("./dl");
           // console.log("tempStr:", tempStr);
           const dyVUrl = tempStr.substr(0, tempStr.indexOf('"'));
           // console.log("dyVUrl:", dyVUrl);
-          dl(dyVUrl, descStr);
+          await dl(dyVUrl, descStr);
           try {
             dyPage.close();
             subPage.close();
@@ -68,14 +68,13 @@ const dl = require("./dl");
       return urls;
     });
 
-    // aurls.forEach(async url => {
-    //   childPage(url);
-    //   await sleep(2000);
-    // });
-    childPage(aurls[0]);
+    aurls.forEach(async url => {
+      await childPage(url);
+      await sleep(5000);
+    });
   };
 
-  for (let i = 1; i <= 1; i++) {
+  for (let i = 1; i <= 2; i++) {
     await downloadByPage(
       "https://www.doudada.com/hot/video?keyword=&page=" +
         i +
