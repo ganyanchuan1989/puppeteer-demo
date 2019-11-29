@@ -1,35 +1,55 @@
+// youtube upload
 const puppeteer = require("puppeteer");
+const sleep = require("./sleep");
 
-const devices = require("puppeteer/DeviceDescriptors");
-const iPhone = devices["iPhone 6"];
 (async () => {
   const browser = await puppeteer.launch({
-    executablePath:
-      "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    args: [
+      "--user-data-dir=C:\\Users\\yueyt\\AppData\\Local\\Chromium\\User Data\\Profile 3"
+    ],
     headless: false,
     devtools: true
   });
 
   const page = await browser.newPage();
-  const _browser = browser;
-  await page.goto("http://127.0.0.1:5500/pp/index.html");
-  page.on("response", async function(response) {
-    // const items = await page.$$(".item");
-    // const itemA = await items[0].$("a");
-    // console.log(itemA);
-    // itemA.click();
-    // const handle = await page.evaluateHandle(() => ({ window, document }));
-    // const properties = await handle.getProperties();
-    // const windowHandle = properties.get("window");
-    // const documentHandle = properties.get("document");
-    // console.log(windowHandle);
-    // await handle.dispose();
-  });
 
-  // await page.click("#username");
-  // page.keyboard.sendCharacter("ganxz");
-  // await page.click("#password");
-  // page.keyboard.sendCharacter("111");
-  // waitForResponse = new Promise(getResponseBody);
-  // await page.click("#btnSubmit");
+  page.setViewport({ width: 1400, height: 700 });
+  await page.goto("http://127.0.0.1:5500/www/index.html");
+
+  // click
+  await page.click("#btn"); // id
+  await page.click(".btn-cls"); // class
+
+  // 列表中的某一项
+  const mbtns = await page.$$(".multi-cls");
+  await mbtns[0].click();
+
+  // file
+  const [fileChooser] = await Promise.all([
+    page.waitForFileChooser(),
+    page.click("#myfile") // some button that triggers file selection
+  ]);
+  await fileChooser.accept(["C:\\tmp\\1.txt"]);
+
+  // radio button
+  await page.click("#pear");
+  // await sleep(3000);
+  // await page.click("#banana");
+
+  // input
+  await page.type("#txtInput", "HelloWorld");
+  // await page.type("#txtArea", "HelloWorld");
+  const input_area = await page.$("#txtArea");
+  await input_area.type("hello world");
+
+  // parent 子节点点击
+  const parent = await page.$("#parent");
+  const childBtn = await parent.$("button");
+  await childBtn.click();
+
+  // screentshot
+  // await page.screenshot({ path: "c:/tmp/ddd.png" });
+
+  // wait network 等待所有请求结束
+  // await page.waitForNavigation({ waitUntil: "networkidle0" });
 })();

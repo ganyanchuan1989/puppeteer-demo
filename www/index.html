@@ -4,9 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Demo</title>
+    <title>Puppeteer Demo</title>
   </head>
   <body>
-    <button id="btn" onclick="console.log('btn click')">button</button>
+    <h3>模拟点击</h3>
+    <button id="btn" onclick="console.log('btn click by id')">click id</button>
+    <button class="btn-cls" onclick="console.log('btn click by class')">
+      click class
+    </button>
+    <button class="multi-cls" onclick="console.log('multi-class1')">
+      multi-class1
+    </button>
+    <button class="multi-cls" onclick="console.log('multi-class2')">
+      multi-class2
+    </button>
+    <button class="multi-cls" onclick="console.log('multi-class3')">
+      multi-class3
+    </button>
+    <h3>文件上传</h3>
+    <input id="myfile" type="file" />
+    <h3>radio</h3>
+    <form action="" method="get">
+      您最喜欢水果？<br /><br />
+      <label><input name="Fruit" type="radio" value="" />苹果 </label>
+      <label><input name="Fruit" type="radio" value="" />桃子 </label>
+      <label
+        ><input name="Fruit" type="radio" value="" id="banana" />香蕉
+      </label>
+      <label><input name="Fruit" type="radio" value="" id="pear" />梨 </label>
+      <label><input name="Fruit" type="radio" value="" />其它 </label>
+    </form>
+
+    <h3>输入</h3>
+    <input id="txtInput" /> <br /><br />
+    <textarea id="txtArea"></textarea>
+
+    <h3>子组件</h3>
+    <div id="parent">
+      <button onclick="console.log('click is child')">child</button>
+    </div>
   </body>
 </html>

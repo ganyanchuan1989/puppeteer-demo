@@ -18,7 +18,7 @@ const puppeteer = require("puppeteer");
 
   const page = await browser.newPage();
 
-  page.setViewport({ width: 1800, height: 1000 });
+  page.setViewport({ width: 1400, height: 700 });
   await page.goto(
     "https://studio.youtube.com/channel/UCd7wt76fJPmSmhLcnhMHbiA/videos?d=ud"
   );
@@ -33,7 +33,11 @@ const puppeteer = require("puppeteer");
     page.waitForFileChooser(),
     page.click("#select-files-button") // some button that triggers file selection
   ]);
-  await fileChooser.accept(["C:\\tmp\\111.mp4"]);
+  await fileChooser.accept(["C:\\tmp\\22.mp4"]);
+  const input_area = await page.$("#textbox");
+  await input_area.type("hello world");
+  await page.click("#next-button");
+
   // await page.click(".remove-defaults");
   // await page.screenshot({ path: "c:/tmp/ddd.png" });
   // await page.waitForNavigation({ waitUntil: "networkidle0" });
