@@ -35,7 +35,7 @@ const sleep = require("./sleep");
   await page.click("#myid"); // find by id
   await page.click("[name='myname']"); // find by name [attribute='value']
   await page.click(".mycls"); // find by class
-
+  await page.click(".mycls1.mycls2.mycls2");
   // radio button
   await page.click("#pear");
   // await sleep(3000);
@@ -57,6 +57,12 @@ const sleep = require("./sleep");
   const parent = await page.$("#parent");
   const childBtn = await parent.$("button");
   await childBtn.click();
+
+  // innerHTML
+  const bodyHandle = await page.$("body");
+  const html = await page.evaluate(body => body.innerHTML, bodyHandle);
+  console.log(html);
+  await bodyHandle.dispose();
 
   // screentshot
   // await page.screenshot({ path: "c:/tmp/ddd.png" });

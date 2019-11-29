@@ -1,5 +1,6 @@
 // youtube upload
 const puppeteer = require("puppeteer");
+const sleep = require("./sleep");
 (async () => {
   const browser = await puppeteer.launch({
     args: [
@@ -12,12 +13,12 @@ const puppeteer = require("puppeteer");
       // '--window-size=375,812',
       // '--remote-debugging-port=9222'
     ],
-    headless: false
-    // devtools: true
+    headless: false,
+    devtools: true
   });
 
   const page = await browser.newPage();
-  page.setViewport({ width: 1400, height: 700 });
+  page.setViewport({ width: 1300, height: 700 });
   await page.goto(
     "https://studio.youtube.com/channel/UCd7wt76fJPmSmhLcnhMHbiA/videos?d=ud"
   );
@@ -26,9 +27,21 @@ const puppeteer = require("puppeteer");
     page.click("#select-files-button") // some button that triggers file selection
   ]);
   await fileChooser.accept(["C:\\tmp\\22.mp4"]);
-  const txts = page.$$("#textbox");
+  await sleep(5000);
+  const txts = await page.$$("#textbox");
   for (let i = 0; i < txts.length; i++) {
     await txts[i].type("HelloWorld");
   }
-  await page.click("#next-button");
+  await page.click("[name='NOT_MADE_FOR_KIDS']");
+  await page.click(".advanced-button.style-scope.ytcp-uploads-details");
+  // const tagsTextInput = await page.$("#text-input");
+  // await tagsTextInput.type("XXXXXXXXXXX");
+  // await page.type("#text-input", "xxxx");
+  await page.type(".text-input.style-scope.ytcp-chip-bar", "hello");
+  // await tagsTextInput.press("Enter");
+
+  // await page.click("#next-button");
+  // await page.click("#next-button");
+  // await sleep(2000);
+  // await page.click("[name='PUBLIC']");
 })();
