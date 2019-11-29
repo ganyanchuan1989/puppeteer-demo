@@ -31,13 +31,24 @@ const sleep = require("./sleep");
   ]);
   await fileChooser.accept(["C:\\tmp\\1.txt"]);
 
+  // 查找
+  await page.click("#myid"); // find by id
+  await page.click("[name='myname']"); // find by name [attribute='value']
+  await page.click(".mycls"); // find by class
+
   // radio button
   await page.click("#pear");
   // await sleep(3000);
   // await page.click("#banana");
 
   // input
-  await page.type("#txtInput", "HelloWorld");
+  // await page.type("#txtInput", "HelloWorld");
+  // 多个ID
+  const inputs = await page.$$("#txtInput");
+  for (let i = 0; i < inputs.length; i++) {
+    await inputs[i].type("HelloWorld");
+  }
+
   // await page.type("#txtArea", "HelloWorld");
   const input_area = await page.$("#txtArea");
   await input_area.type("hello world");

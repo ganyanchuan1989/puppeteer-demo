@@ -17,34 +17,18 @@ const puppeteer = require("puppeteer");
   });
 
   const page = await browser.newPage();
-
   page.setViewport({ width: 1400, height: 700 });
   await page.goto(
     "https://studio.youtube.com/channel/UCd7wt76fJPmSmhLcnhMHbiA/videos?d=ud"
   );
-  // await page.click("#select-files-button");
-  // // const input = await page.$('input[type="file"]');
-  // // await input.uploadFile("./content.csv");
-  // page.on("filedialog", async input => {
-  //   await input.uploadFile("C:\\tmp\\111.mp4");
-  // });
-
   const [fileChooser] = await Promise.all([
     page.waitForFileChooser(),
     page.click("#select-files-button") // some button that triggers file selection
   ]);
   await fileChooser.accept(["C:\\tmp\\22.mp4"]);
-  const input_area = await page.$("#textbox");
-  await input_area.type("hello world");
+  const txts = page.$$("#textbox");
+  for (let i = 0; i < txts.length; i++) {
+    await txts[i].type("HelloWorld");
+  }
   await page.click("#next-button");
-
-  // await page.click(".remove-defaults");
-  // await page.screenshot({ path: "c:/tmp/ddd.png" });
-  // await page.waitForNavigation({ waitUntil: "networkidle0" });
-
-  const sleep = async time => {
-    return new Promise(function(resolve) {
-      setTimeout(resolve, time);
-    });
-  };
 })();

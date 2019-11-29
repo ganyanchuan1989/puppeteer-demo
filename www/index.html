@@ -7,6 +7,16 @@
     <title>Puppeteer Demo</title>
   </head>
   <body>
+    <h3>查找</h3>
+    <div class="mycls" onclick="console.log('find me by class')">
+      find me by class
+    </div>
+    <div id="myid" onclick="console.log('find me by id')">
+      find me by id
+    </div>
+    <div name="myname" onclick="console.log('find me by name')">
+      find me by name
+    </div>
     <h3>模拟点击</h3>
     <button id="btn" onclick="console.log('btn click by id')">click id</button>
     <button class="btn-cls" onclick="console.log('btn click by class')">
@@ -36,6 +46,7 @@
     </form>
 
     <h3>输入</h3>
+    <input id="txtInput" /> <br /><br />
     <input id="txtInput" /> <br /><br />
     <textarea id="txtArea"></textarea>
 
