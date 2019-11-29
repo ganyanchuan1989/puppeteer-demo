@@ -2,6 +2,15 @@ const puppeteer = require("puppeteer");
 const dl = require("./dl");
 (async () => {
   const browser = await puppeteer.launch({
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--profile-directory=Profile 3"
+      // '--proxy-server=10.24.51.125:8411',
+      // '--ignore-certificate-errors',
+      // '--window-size=375,812',
+      // '--remote-debugging-port=9222'
+    ],
     executablePath:
       "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     headless: false
