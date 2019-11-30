@@ -55,16 +55,25 @@ const sleep = require("./sleep");
   const input_area = await page.$("#txtArea");
   await input_area.type("hello world");
 
+  //clean input
+  const elementHandle = await page.$("#txtClear");
+  await elementHandle.click();
+  await elementHandle.focus();
+  // click three times to select all
+  await elementHandle.click({ clickCount: 3 });
+  await elementHandle.press("Backspace");
+  await elementHandle.type("New Text");
+
   // parent 子节点点击
   const parent = await page.$("#parent");
   const childBtn = await parent.$("button");
   await childBtn.click();
 
   // innerHTML
-  const bodyHandle = await page.$("body");
-  const html = await page.evaluate(body => body.innerHTML, bodyHandle);
-  console.log(html);
-  await bodyHandle.dispose();
+  // const bodyHandle = await page.$("body");
+  // const html = await page.evaluate(body => body.innerHTML, bodyHandle);
+  // console.log(html);
+  // await bodyHandle.dispose();
 
   // screentshot
   // await page.screenshot({ path: "c:/tmp/ddd.png" });

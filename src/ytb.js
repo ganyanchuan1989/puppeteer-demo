@@ -26,12 +26,20 @@ const sleep = require("./sleep");
     page.waitForFileChooser(),
     page.click("#select-files-button") // some button that triggers file selection
   ]);
-  await fileChooser.accept(["C:\\tmp\\111.mp4"]);
+  await fileChooser.accept(["C:\\tmp\\12.mp4"]);
   await sleep(5000);
   const desc = "HelloWorld";
   const txts = await page.$$("#textbox");
   for (let i = 0; i < txts.length; i++) {
-    await txts[i].type("HelloWorld");
+    const elementHandle = txts[i];
+    await elementHandle.click();
+    await elementHandle.focus();
+    // click three times to select all
+    await elementHandle.click({ clickCount: 3 });
+    await elementHandle.press("Backspace");
+    await elementHandle.type("HelloWorld");
+
+    // await txts[i].type("HelloWorld");
   }
   await page.click("[name='NOT_MADE_FOR_KIDS']");
   await page.click(".advanced-button.style-scope.ytcp-uploads-details");
@@ -49,15 +57,40 @@ const sleep = require("./sleep");
   // await sleep(2000);
   await page.click("[name='PUBLIC']");
   await sleep(10000);
-  await page.click("#done-button");
+  // await page.click("#done-button");
+
+  let donBtnClickOk = false;
+  let uploadOk = false;
+  const uplaodComplete = async () => {
+    if (donBtnClickOk && uploadOk) {
+      console.log("上传完成");
+      // await page.close();
+    }
+  };
+
+  const doneBtnSID = setInterval(async function() {
+    const doneBtn = await page.$('[id="done-button"][disabled]');
+    if (doneBtn) {
+      clearInterval(doneBtnSID);
+      console.log("已经点击完成按钮");
+      donBtnClickOk = true;
+      uplaodComplete();
+    } else {
+      console.log("点击完成按钮");
+      await page.click("#done-button");
+    }
+  }, 10000);
 
   const sId = setInterval(async function() {
-    console.log("检测是否完成。。");
+    console.log("检测是否上传完成");
     const fallback = await page.$(`[alt='视频缩略图：${desc}']`);
     if (fallback) {
       clearInterval(sId);
       console.log("upload 上传完成");
+      uploadOk = true;
+      uplaodComplete();
     }
-  }, 30000);
+  }, 20000);
+
   // await page.waitForNavigation({ waitUntil: "networkidle0" });
 })();
