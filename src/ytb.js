@@ -26,8 +26,9 @@ const sleep = require("./sleep");
     page.waitForFileChooser(),
     page.click("#select-files-button") // some button that triggers file selection
   ]);
-  await fileChooser.accept(["C:\\tmp\\22.mp4"]);
+  await fileChooser.accept(["C:\\tmp\\111.mp4"]);
   await sleep(5000);
+  const desc = "HelloWorld";
   const txts = await page.$$("#textbox");
   for (let i = 0; i < txts.length; i++) {
     await txts[i].type("HelloWorld");
@@ -37,11 +38,26 @@ const sleep = require("./sleep");
   // const tagsTextInput = await page.$("#text-input");
   // await tagsTextInput.type("XXXXXXXXXXX");
   // await page.type("#text-input", "xxxx");
-  await page.type(".text-input.style-scope.ytcp-chip-bar", "hello");
+  // await page.type(".text-input.style-scope.ytcp-chip-bar", "hello");
   // await tagsTextInput.press("Enter");
 
-  // await page.click("#next-button");
-  // await page.click("#next-button");
+  await page.click("#next-button");
+  await page.click("#next-button");
+  await page.click(
+    ".button-area.remove-default-style.style-scope.ytcp-expansion-panel"
+  );
   // await sleep(2000);
-  // await page.click("[name='PUBLIC']");
+  await page.click("[name='PUBLIC']");
+  await sleep(10000);
+  await page.click("#done-button");
+
+  const sId = setInterval(async function() {
+    console.log("检测是否完成。。");
+    const fallback = await page.$(`[alt='视频缩略图：${desc}']`);
+    if (fallback) {
+      clearInterval(sId);
+      console.log("upload 上传完成");
+    }
+  }, 30000);
+  // await page.waitForNavigation({ waitUntil: "networkidle0" });
 })();

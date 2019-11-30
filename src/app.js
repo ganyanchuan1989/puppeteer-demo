@@ -36,6 +36,8 @@ const sleep = require("./sleep");
   await page.click("[name='myname']"); // find by name [attribute='value']
   await page.click(".mycls"); // find by class
   await page.click(".mycls1.mycls2.mycls2");
+  await page.click('[id="multi-attribute"][disabled]'); // mutil attribute
+
   // radio button
   await page.click("#pear");
   // await sleep(3000);
